@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, FormEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { Button } from "../ui/button/button";
 import { Input } from "../ui/input/input";
 import { Circle } from "../ui/circle/circle";
@@ -158,7 +158,8 @@ export const ListPage: React.FC = () => {
     //Прорисовка
     setItemsArr([...itemsArr]);
     await setDelay(SHORT_DELAY_IN_MS);
-    itemsArr[length - 1].state = ElementStates.Default;
+   // Вернем всем кружкам синий цвет
+   itemsArr.forEach((item) => (item.state = ElementStates.Default));
     //Раблокируем кнопки
     setIsExecute(false);
     // Очистим поле ввода
@@ -236,6 +237,8 @@ export const ListPage: React.FC = () => {
       element: inputValue,
       state: ElementStates.Modified,
     });
+   // Вернем всем кружкам синий цвет
+   itemsArr.forEach((item) => (item.state = ElementStates.Default));
     //Прорисовка
     setItemsArr([...itemsArr]);
     await setDelay(SHORT_DELAY_IN_MS);
@@ -287,7 +290,7 @@ export const ListPage: React.FC = () => {
       <div className={styles.wrapper}>
         <Input
           disabled={isExecute}
-          onChange={(e: FormEvent<HTMLInputElement>) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setInputValue(e.currentTarget.value);
           }}
           isLimitText={true}
@@ -312,13 +315,13 @@ export const ListPage: React.FC = () => {
         ></Button>
         <Button
           onClick={() => deleteHead()}
-          disabled={isExecute}
+          disabled={isExecute || itemsArr.length === 1}
           type="button"
           text={"Удалить из head"}
         ></Button>
         <Button
           onClick={() => deleteTail()}
-          disabled={isExecute}
+          disabled={isExecute || itemsArr.length === 1}
           type="button"
           text={"Удалить из tail"}
         ></Button>
@@ -327,12 +330,12 @@ export const ListPage: React.FC = () => {
         <Input
           placeholder="Введите индекс"
           disabled={isExecute}
-          onChange={(e: FormEvent<HTMLInputElement>) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setIndexValue(e.currentTarget.value);
           }}
           isLimitText={true}
-          // min={0}
           max={itemsArr.length - 1}
+          min={0}
           value={indexValue}
           extraClass={styles.input}
           type="number"
@@ -340,13 +343,13 @@ export const ListPage: React.FC = () => {
         <Button
           isLoader={isExecute}
           onClick={() => insertByIndex(Number(indexValue))}
-          disabled={!inputValue || !indexValue || isExecute}
+          disabled={!inputValue || (Number(indexValue) > itemsArr.length - 1)  || isExecute}
           type="button"
           text={"Добавить по индексу"}
         ></Button>
         <Button
           onClick={() => deleteByIndex(Number(indexValue))}
-          disabled={!indexValue || isExecute}
+          disabled={!indexValue || isExecute || itemsArr.length === 1}
           type="button"
           text={"Удалить по индексу"}
         ></Button>
