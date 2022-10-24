@@ -4,7 +4,7 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
-import { FormEvent } from "react";
+import { ChangeEvent } from "react";
 import { DELAY_IN_MS } from "../../constants/delays";
 import styles from "./string.module.css";
 import { ElementStates } from "../../types/element-states";
@@ -83,7 +83,7 @@ export const StringComponent: React.FC = () => {
       <div className={styles.wrapper}>
         <Input
           disabled={currentReverseStep < reverseSteps.length - 1}
-          onChange={(e: FormEvent<HTMLInputElement>) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setInputValue(e.currentTarget.value);
           }}
           isLimitText={true}
