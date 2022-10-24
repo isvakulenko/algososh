@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, FormEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { Button } from "../ui/button/button";
 import { Input } from "../ui/input/input";
 import { Circle } from "../ui/circle/circle";
@@ -85,7 +85,7 @@ export const StackPage: React.FC = () => {
       <div className={styles.wrapper}>
         <Input
           disabled={isExecute}
-          onChange={(e: FormEvent<HTMLInputElement>) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setInputValue(e.currentTarget.value);
           }}
           isLimitText={true}
