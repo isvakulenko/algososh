@@ -4,7 +4,7 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
-import { FormEvent } from "react";
+import {ChangeEvent } from "react";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import styles from "./fibonacci-page.module.css";
 
@@ -58,7 +58,7 @@ export const FibonacciPage: React.FC = () => {
       <div className={styles.wrapper}>
         <Input
           disabled={currentStep < fibonacciNumbersArr.length - 1}
-          onChange={(e: FormEvent<HTMLInputElement>) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setInputValue(e.currentTarget.value);
           }}
           isLimitText={true}
@@ -69,7 +69,7 @@ export const FibonacciPage: React.FC = () => {
         ></Input>
         <Button
           isLoader={currentStep < fibonacciNumbersArr.length - 1}
-          onClick={(e) => {
+          onClick={() => {
             calcFibonacciNumber();
           }}
           disabled={!inputValue || Number(inputValue) > 19}
