@@ -117,8 +117,8 @@ export const QueuePage: React.FC = () => {
         ></Button>
         <Button
           isLoader={isExecute}
-            onClick={() => dequeueItem()}
-          disabled={!itemsArr.length || isExecute}
+          onClick={() => dequeueItem()}
+          disabled={queue.isEmpty() || isExecute}
           type="button"
           text={"Удалить"}
         ></Button>
