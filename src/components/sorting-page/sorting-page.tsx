@@ -1,22 +1,29 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { DELAY_IN_MS } from "../../constants/delays";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { Button } from "../ui/button/button";
 import { Column } from "../ui/column/column";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import styles from "./sorting-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
+import { Direction } from "../../types/direction";
+import { ElementStates } from "../../types/element-states";
+
+type TColumn = {
+  number: number;
+  state: ElementStates;
+};
 
 export const SortingPage: React.FC = () => {
   const [sortingType, setSortingType] = useState<string>("select");
-  const [initialArr, setInitialArr] = useState<number[]>([]);
-  const [inExecute, setinExecute] = useState(false);
+  const [sortDirection, setSortDirection] = useState<Direction>();
+  const [initialArr, setInitialArr] = useState<Array<TColumn>>([]);
+  const [sortStepArr, setSortStepArr] = useState<Array<Array<TColumn>>>([]);
+  // Номер текущего шага
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isExecute, setIsExecute] = useState(false);
 
-  enum Direction {
-    Ascending = "ascending",
-    Descending = "descending",
-  }
-  const randomArr = (): number[] => {
+  const randomArr = () => {
     //Минимальнная длинна массива
     const minLen = 3;
     //Максимальная длинна массива
@@ -27,18 +34,20 @@ export const SortingPage: React.FC = () => {
     const minNum = 0;
     //Выберем длинну массива
     const arrLen = Math.floor(Math.random() * (maxLen - minLen)) + minLen;
-    console.log(arrLen);
     let arr = [];
     for (let i = 0; i <= arrLen - 1; i++) {
       //Случайное число для массива
       let randNum = Math.floor(Math.random() * (maxNum - minNum)) + minNum;
-      arr.push(randNum);
+      arr.push({
+        number: randNum,
+        state: ElementStates.Default,
+      });
     }
-    // Чтобы не было повторов
-    return Array.from(new Set(arr));
+    return arr;
   };
+  //Функция для выполнения перестановок в массиве
   const swap = (
-    arr: number[],
+    arr: TColumn[],
     firstIndex: number,
     secondIndex: number
   ): void => {
@@ -47,24 +56,43 @@ export const SortingPage: React.FC = () => {
     arr[secondIndex] = temp;
   };
 
-  const generateNewArray = () => {
+  const getNewArray = () => {
+    setSortStepArr([]);
     setInitialArr(randomArr());
-    console.log(initialArr);
   };
 
   // При первоначальной загрузки страницы отобразим произвольный массив
   useEffect(() => {
-    generateNewArray();
+    getNewArray();
   }, []);
 
-  const getBubbleSortSteps = (arr: number[]) => {
+  const startSortArr = (sortDirection: Direction) => {
+    setIsExecute(true);
+    const steps = (
+      sortingType === "select" ? getSelectSortSteps : getBubbleSortSteps
+    )(initialArr, sortDirection);
+    setSortStepArr(steps);
+    setSortDirection(sortDirection);
+    // //Сбросим счетчик
+    setCurrentStep(0);
+    stepTimer(steps);
+  };
+
+  const getBubbleSortSteps = (arr: TColumn[], direction: Direction) => {
+    console.log("arrStart", arr);
+    let sortState: TColumn[][] = [[...arr]];
+    let step = 1;
     for (let i = 0; i < arr.length; i++) {
       let swapped = false;
-      let sortState: number[][] = [[...arr]];
       for (let j = 0; j < arr.length - i - 1; j++) {
-        if (arr[j] < arr[j + 1]) {
+        if (
+          direction === Direction.Ascending
+            ? arr[j].number > arr[j + 1].number
+            : arr[j].number < arr[j + 1].number
+        ) {
           swap(arr, j, j + 1);
           sortState.push([...arr]);
+          step++;
           swapped = true;
         }
       }
@@ -72,9 +100,46 @@ export const SortingPage: React.FC = () => {
         break;
       }
     }
-    return arr;
+    return sortState;
   };
 
+  const getSelectSortSteps = (arr: TColumn[], direction: Direction) => {
+    let sortState: TColumn[][] = [[...arr]];
+    const { length } = arr;
+    for (let i = 0; i < length - 1; i++) {
+      let minInd = i;
+      for (let k = i + 1; k < length; k++) {
+        if (
+          direction === Direction.Ascending
+            ? arr[k].number < arr[minInd].number
+            : arr[k].number > arr[minInd].number
+        ) {
+          minInd = k;
+        }
+      }
+      if (minInd !== i) {
+        swap(arr, i, minInd);
+        sortState.push([...arr]);
+      }
+    }
+    return sortState;
+  };
+  // Вызовем таймер, увеличивающий шаг каждую секунду
+  const stepTimer = (steps: TColumn[][]) => {
+    if (steps.length > 1) {
+      //Счетчик шагов будет увеличиваться на 1 каждые 1000 мс
+      let timerId = setInterval(() => {
+        setCurrentStep((currentStep) => {
+          const nextStep = currentStep + 1;
+          if (nextStep >= steps.length - 1) {
+            clearInterval(timerId);
+            setIsExecute(false);
+          }
+          return nextStep;
+        });
+      }, SHORT_DELAY_IN_MS);
+    }
+  };
   return (
     <SolutionLayout title="Сортировка массива">
       <div className={styles.wrapper}>
@@ -90,38 +155,40 @@ export const SortingPage: React.FC = () => {
           value="bubble"
           onChange={() => setSortingType("bubble")}
           checked={sortingType === "bubble"}
+          extraClass={styles.radio}
         ></RadioInput>
         <Button
           sorting={Direction.Ascending}
           type="button"
           text={"По возрастанию"}
-          // onClick={() => sortArr(Direction.Ascending)}
-          // isLoader={sortDirection === Direction.Ascending && isExecute}
-          // disabled={sortDirection !== Direction.Ascending && isExecute}
+          onClick={() => startSortArr(Direction.Ascending)}
+          isLoader={sortDirection === Direction.Ascending && isExecute}
+          disabled={sortDirection !== Direction.Ascending && isExecute}
         ></Button>
         <Button
           type="button"
           text={"По убыванию"}
-          sorting={Direction.Ascending}
-          //     onClick={() => sortArr(Direction.Descending)}
-          // isLoader={sortDirection === Direction.Descending && isExecute}
-          // disabled={sortDirection !== Direction.Descending && isExecute}
+          sorting={Direction.Descending}
+          onClick={() => startSortArr(Direction.Descending)}
+          isLoader={sortDirection === Direction.Descending && isExecute}
+          disabled={sortDirection !== Direction.Descending && isExecute}
         ></Button>
         <Button
           text={"Новый массив"}
-          onClick={() => generateNewArray()}
-          // disabled={isExecute}
+          onClick={() => getNewArray()}
+          disabled={isExecute}
           type="button"
         ></Button>
       </div>
       <div>
         <ul className={styles.list}>
-          {initialArr &&
-            initialArr.map((item, index) => {
+          {(sortStepArr || initialArr) &&
+            (sortStepArr[currentStep] || initialArr).map((item, index) => {
               return (
-              <li key={index}>
-                <Column index={item} />
-              </li>)
+                <li key={index}>
+                  <Column index={item.number} state={item.state} />
+                </li>
+              );
             })}
         </ul>
       </div>

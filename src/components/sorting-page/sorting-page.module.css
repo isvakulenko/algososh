@@ -1,5 +1,5 @@
 .radio{
-
+  display: flex;
 }
 .wrapper{
   display: flex;
