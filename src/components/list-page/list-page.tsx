@@ -349,7 +349,7 @@ export const ListPage: React.FC = () => {
         ></Button>
         <Button
           onClick={() => deleteByIndex(Number(indexValue))}
-          disabled={!indexValue || isExecute || itemsArr.length === 1}
+          disabled={!indexValue || isExecute || itemsArr.length === 1 || (Number(indexValue) > itemsArr.length - 1)}
           type="button"
           text={"Удалить по индексу"}
         ></Button>
