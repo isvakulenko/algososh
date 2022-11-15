@@ -8,6 +8,22 @@ import {ChangeEvent } from "react";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import styles from "./fibonacci-page.module.css";
 
+// Функция формирует массив с числами Фибоначчи
+const getFibonacciNumbersArr = (n: number) => {
+  let FibonacciNumbers: number[] = [0, 1];
+  if (n === 1) {
+    return FibonacciNumbers.slice(0, 1);
+  } else if (n === 2) {
+    return FibonacciNumbers;
+  } else {
+    for (let i = 2; i < n + 1; i++) {
+      FibonacciNumbers.push(
+        FibonacciNumbers[i - 2] + FibonacciNumbers[i - 1]
+      );
+    }
+  }
+  return FibonacciNumbers;
+};
 export const FibonacciPage: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   // Номер текущего шага
@@ -15,22 +31,6 @@ export const FibonacciPage: React.FC = () => {
   // Массив с вычисленными числами Фибоначчи
   const [fibonacciNumbersArr, setFibonacciNumbersArr] = useState<number[]>([]);
 
-  // Функция формирует массив с числами Фибоначчи
-  const getFibonacciNumbersArr = (n: number) => {
-    let FibonacciNumbers: number[] = [0, 1];
-    if (n === 1) {
-      return FibonacciNumbers.slice(0, 1);
-    } else if (n === 2) {
-      return FibonacciNumbers;
-    } else {
-      for (let i = 2; i < n + 1; i++) {
-        FibonacciNumbers.push(
-          FibonacciNumbers[i - 2] + FibonacciNumbers[i - 1]
-        );
-      }
-    }
-    return FibonacciNumbers;
-  };
 
   const calcFibonacciNumber = () => {
     const arr = getFibonacciNumbersArr(Number(inputValue));
