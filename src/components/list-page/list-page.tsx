@@ -9,11 +9,9 @@ import styles from "./list-page.module.css";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { LinkedList } from "./linked-list";
+import { initialArr } from "./utils";
 
 export const ListPage: React.FC = () => {
-  //для первоначального формирования списка
-  let initialArr = ["0", "34", "8", "1"];
-
   //Создадим экземпляр класса списка
   const [linkedList] = useState(new LinkedList<string>(initialArr));
 
@@ -225,7 +223,7 @@ export const ListPage: React.FC = () => {
       setItemsArr([...itemsArr]);
       await setDelay(SHORT_DELAY_IN_MS);
     }
-    // Вставка в основной ряд нового знчения
+    // Вставка в основной ряд нового значения
     itemsArr[indexValue] = {
       ...itemsArr[indexValue],
       add: false,
@@ -237,11 +235,11 @@ export const ListPage: React.FC = () => {
       element: inputValue,
       state: ElementStates.Modified,
     });
-   // Вернем всем кружкам синий цвет
-   itemsArr.forEach((item) => (item.state = ElementStates.Default));
     //Прорисовка
     setItemsArr([...itemsArr]);
     await setDelay(SHORT_DELAY_IN_MS);
+    // Вернем всем кружкам синий цвет
+    itemsArr.forEach((item) => (item.state = ElementStates.Default));
     //Раблокируем кнопки
     setIsExecute(false);
   };
