@@ -1,5 +1,6 @@
 import { getFibonacciNumbersArr } from "../../src/components/fibonacci-page/utils";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
+import {CLASS_CIRCLE_CONTENT} from './constants'
 
 describe("Page with Fibonacci numbers app is right", () => {
   before(function () {
@@ -22,7 +23,7 @@ describe("Page with Fibonacci numbers app is right", () => {
     const FibonacciNumbersArr = getFibonacciNumbersArr(19);
 // Дадим задержку на вычисление всех чисел Фибоначчи
     cy.wait(19*SHORT_DELAY_IN_MS );
-      cy.get("[class*=circle_content]").each(($number, index) => {
+      cy.get(CLASS_CIRCLE_CONTENT).each(($number, index) => {
         cy.wrap($number).contains(FibonacciNumbersArr[index]);
        }
     );

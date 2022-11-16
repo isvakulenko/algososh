@@ -1,4 +1,6 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
+import {CLASS_CIRCLE_CONTENT} from './constants';
+import {CLASS_CIRCLE_CHANGING} from './constants';
 
 describe("Page with queue is right", () => {
   before(function () {
@@ -23,47 +25,47 @@ describe("Page with queue is right", () => {
     // Добавим в очередь Q
     cy.get("input").type("Q").should("have.value", "Q");
     cy.contains("Добавить").click();
-    cy.get("[class*=circle_content]").contains("Q");
-    cy.get("[class*=circle_content]").contains("head");
-    cy.get("[class*=circle_content]").contains("tail");
-    cy.get("[class*=circle_content]").children("[class*= circle_changing]");
+    cy.get(CLASS_CIRCLE_CONTENT).contains("Q");
+    cy.get(CLASS_CIRCLE_CONTENT).contains("head");
+    cy.get(CLASS_CIRCLE_CONTENT).contains("tail");
+    cy.get(CLASS_CIRCLE_CONTENT).children(CLASS_CIRCLE_CHANGING);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[class*=circle_content]").children("[class*= circle_default]");
+    cy.get(CLASS_CIRCLE_CONTENT).children('[class*= circle_default]');
     // Добавим в очередь W
     cy.get("input").type("W").should("have.value", "W");
     cy.contains("Добавить").click();
-    cy.get("[class*=circle_content]").contains("W");
-    cy.get("[class*=circle_content]").first().contains("head");
-    cy.get("[class*=circle_content]").eq(1).contains("tail");
-    cy.get("[class*=circle_content]")
+    cy.get(CLASS_CIRCLE_CONTENT).contains("W");
+    cy.get(CLASS_CIRCLE_CONTENT).first().contains("head");
+    cy.get(CLASS_CIRCLE_CONTENT).eq(1).contains("tail");
+    cy.get(CLASS_CIRCLE_CONTENT)
       .eq(1)
-      .children("[class*= circle_changing]");
+      .children(CLASS_CIRCLE_CHANGING);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[class*=circle_content]").children("[class*= circle_default]");
+    cy.get(CLASS_CIRCLE_CONTENT).children('[class*= circle_default]');
     // Добавим в стек E
     cy.get("input").type("E").should("have.value", "E");
     cy.contains("Добавить").click();
-    cy.get("[class*=circle_content]").contains("W");
-    cy.get("[class*=circle_content]").first().contains("head");
-    cy.get("[class*=circle_content]").eq(2).contains("tail");
-    cy.get("[class*=circle_content]")
+    cy.get(CLASS_CIRCLE_CONTENT).contains("W");
+    cy.get(CLASS_CIRCLE_CONTENT).first().contains("head");
+    cy.get(CLASS_CIRCLE_CONTENT).eq(2).contains("tail");
+    cy.get(CLASS_CIRCLE_CONTENT)
       .eq(2)
-      .children("[class*= circle_changing]");
+      .children(CLASS_CIRCLE_CHANGING);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[class*=circle_content]").children("[class*= circle_default]");
+    cy.get(CLASS_CIRCLE_CONTENT).children('[class*= circle_default]');
   });
   //   // Проверить правильность удаления элемента из очереди.
   it("should element delete from queue correctly", () => {
     cy.contains("Удалить").click();
-    cy.get("[class*=circle_content]")
+    cy.get(CLASS_CIRCLE_CONTENT)
       .first()
-      .children("[class*= circle_changing]");
+      .children(CLASS_CIRCLE_CHANGING);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[class*=circle_content]")
+    cy.get(CLASS_CIRCLE_CONTENT)
       .first()
-      .children("[class*= circle_default]");
-    cy.get("[class*=circle_content]").eq(1).contains("head");
-    cy.get("[class*=circle_content]").eq(2).contains("tail");
+      .children('[class*= circle_default]');
+    cy.get(CLASS_CIRCLE_CONTENT).eq(1).contains("head");
+    cy.get(CLASS_CIRCLE_CONTENT).eq(2).contains("tail");
   });
   // Проверьте поведение кнопки «Очистить». Добавьте в стек
   // несколько элементов, по нажатию на кнопку «Очистить» длина очереди
@@ -71,7 +73,7 @@ describe("Page with queue is right", () => {
   it("should clear queue correctly", () => {
     cy.contains("Удалить").should("be.enabled");
     cy.contains("Очистить").click();
-    cy.get("[class*=text_type_circle]").each(($element, index) => {
+    cy.get('[class*=text_type_circle]').each(($element, index) => {
       cy.wrap($element).should("have.value", "");
     });
   });
