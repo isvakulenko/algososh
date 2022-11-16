@@ -1,6 +1,7 @@
 import { initialArr } from "../../src/components/list-page/utils";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 import {CLASS_CIRCLE_CONTENT} from './constants';
+import {CLASS_CIRCLE_DEFAULT} from './constants';
 import {CLASS_CIRCLE_CHANGING} from './constants';
 import {CLASS_CIRCLE_MODIFIED} from './constants';
 
@@ -51,7 +52,7 @@ describe("Page with linked list is right", () => {
     cy.get(CLASS_CIRCLE_CONTENT)
       .should("have.length", listLength)
       .each(($number, index) => {
-        cy.wrap($number).children('[class*= circle_default]');
+        cy.wrap($number).children(CLASS_CIRCLE_DEFAULT);
       });
   });
   //   добавления элемента в tail.
@@ -69,7 +70,7 @@ describe("Page with linked list is right", () => {
     cy.get(CLASS_CIRCLE_CONTENT)
       .should("have.length", listLength)
       .each(($number, index) => {
-        cy.wrap($number).children('[class*= circle_default]');
+        cy.wrap($number).children(CLASS_CIRCLE_DEFAULT);
       });
   });
   //   добавления элемента по индексу.
@@ -107,7 +108,7 @@ describe("Page with linked list is right", () => {
     cy.get(CLASS_CIRCLE_CONTENT)
       .should("have.length", listLength)
       .each(($element, index) => {
-        cy.wrap($element).children('[class*= circle_default]');
+        cy.wrap($element).children(CLASS_CIRCLE_DEFAULT);
       });
   });
   //   удаления элемента из head.
@@ -121,7 +122,7 @@ describe("Page with linked list is right", () => {
     cy.wait(SHORT_DELAY_IN_MS);
     cy.get(CLASS_CIRCLE_CONTENT)
       .should("have.length", listLength)
-      .children('[class*= circle_default]');
+      .children(CLASS_CIRCLE_DEFAULT);
   });
   //   удаления элемента из tail.
   it("should delete element from tail of linked list correctly", () => {
@@ -134,7 +135,7 @@ describe("Page with linked list is right", () => {
     cy.wait(500);
     cy.get(CLASS_CIRCLE_CONTENT)
       .should("have.length", listLength)
-      .children('[class*= circle_default]');
+      .children(CLASS_CIRCLE_DEFAULT);
   });
   //   удаления элемента по индексу.
   it("should delete element from linked list by index correctly", () => {
@@ -163,6 +164,6 @@ describe("Page with linked list is right", () => {
     cy.wait(SHORT_DELAY_IN_MS);
     cy.get(CLASS_CIRCLE_CONTENT)
       .should("have.length", listLength)
-      .children('[class*= circle_default]');
+      .children(CLASS_CIRCLE_DEFAULT);
   });
 });

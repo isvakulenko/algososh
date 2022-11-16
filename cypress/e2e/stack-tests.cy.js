@@ -1,4 +1,5 @@
 import {CLASS_CIRCLE_CONTENT} from './constants';
+import {CLASS_CIRCLE_DEFAULT} from './constants';
 import {CLASS_CIRCLE_CHANGING} from './constants';
 
 describe("Page with stack is right", () => {
@@ -29,7 +30,7 @@ describe("Page with stack is right", () => {
     cy.get(CLASS_CIRCLE_CONTENT).contains("top");
     cy.get(CLASS_CIRCLE_CONTENT).children(CLASS_CIRCLE_CHANGING);
     cy.wait(500);
-    cy.get(CLASS_CIRCLE_CONTENT).children('[class*= circle_default]');
+    cy.get(CLASS_CIRCLE_CONTENT).children(CLASS_CIRCLE_DEFAULT);
     // Добавим в стек W
     cy.get("input").type("W");
     cy.get("input").should("have.value", "W");
@@ -41,7 +42,7 @@ describe("Page with stack is right", () => {
       .last()
       .children(CLASS_CIRCLE_CHANGING);
     cy.wait(500);
-    cy.get(CLASS_CIRCLE_CONTENT).children('[class*= circle_default]');
+    cy.get(CLASS_CIRCLE_CONTENT).children(CLASS_CIRCLE_DEFAULT);
     // Добавим в стек E
     cy.get("input").type("E");
     cy.get("input").should("have.value", "E");
@@ -62,7 +63,7 @@ describe("Page with stack is right", () => {
     cy.wait(1000);
     cy.get(CLASS_CIRCLE_CONTENT)
       .last()
-      .children('[class*= circle_default]');
+      .children(CLASS_CIRCLE_DEFAULT);
     cy.get(CLASS_CIRCLE_CONTENT).contains("W");
     cy.get(CLASS_CIRCLE_CONTENT).last().contains("top");
   });

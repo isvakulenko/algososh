@@ -1,5 +1,6 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 import {CLASS_CIRCLE_CONTENT} from './constants';
+import {CLASS_CIRCLE_DEFAULT} from './constants';
 import {CLASS_CIRCLE_CHANGING} from './constants';
 
 describe("Page with queue is right", () => {
@@ -30,7 +31,7 @@ describe("Page with queue is right", () => {
     cy.get(CLASS_CIRCLE_CONTENT).contains("tail");
     cy.get(CLASS_CIRCLE_CONTENT).children(CLASS_CIRCLE_CHANGING);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get(CLASS_CIRCLE_CONTENT).children('[class*= circle_default]');
+    cy.get(CLASS_CIRCLE_CONTENT).children(CLASS_CIRCLE_DEFAULT);
     // Добавим в очередь W
     cy.get("input").type("W").should("have.value", "W");
     cy.contains("Добавить").click();
@@ -41,7 +42,7 @@ describe("Page with queue is right", () => {
       .eq(1)
       .children(CLASS_CIRCLE_CHANGING);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get(CLASS_CIRCLE_CONTENT).children('[class*= circle_default]');
+    cy.get(CLASS_CIRCLE_CONTENT).children(CLASS_CIRCLE_DEFAULT);
     // Добавим в стек E
     cy.get("input").type("E").should("have.value", "E");
     cy.contains("Добавить").click();
@@ -52,7 +53,7 @@ describe("Page with queue is right", () => {
       .eq(2)
       .children(CLASS_CIRCLE_CHANGING);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get(CLASS_CIRCLE_CONTENT).children('[class*= circle_default]');
+    cy.get(CLASS_CIRCLE_CONTENT).children(CLASS_CIRCLE_DEFAULT);
   });
   //   // Проверить правильность удаления элемента из очереди.
   it("should element delete from queue correctly", () => {
@@ -63,7 +64,7 @@ describe("Page with queue is right", () => {
     cy.wait(SHORT_DELAY_IN_MS);
     cy.get(CLASS_CIRCLE_CONTENT)
       .first()
-      .children('[class*= circle_default]');
+      .children(CLASS_CIRCLE_DEFAULT);
     cy.get(CLASS_CIRCLE_CONTENT).eq(1).contains("head");
     cy.get(CLASS_CIRCLE_CONTENT).eq(2).contains("tail");
   });
