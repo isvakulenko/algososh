@@ -1,6 +1,6 @@
 describe("Page with stack is right", () => {
   before(function () {
-    cy.visit("http://localhost:3000/stack");
+    cy.visit("stack");
   });
 
   // Проверьте, что если в инпуте пусто, то кнопка

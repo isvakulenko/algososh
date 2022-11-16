@@ -4,7 +4,7 @@ import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 let listLength = initialArr.length;
 describe("Page with linked list is right", () => {
   before(function () {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
   });
   // Проверьте, что если в инпуте пусто, то кнопка добавления недоступна,
   // кнопки добавления по индексу и удаления по индексу недоступны тоже.

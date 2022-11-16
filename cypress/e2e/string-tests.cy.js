@@ -3,7 +3,7 @@ import { DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Page with String reverse app is right", () => {
   before(function () {
-    cy.visit("http://localhost:3000/recursion");
+    cy.visit("recursion");
   });
 
   it("should disable button if input is empty", () => {

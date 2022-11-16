@@ -2,7 +2,7 @@ import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Page with queue is right", () => {
   before(function () {
-    cy.visit("http://localhost:3000/queue");
+    cy.visit("queue");
   });
 
   // Проверьте, что если в инпуте пусто, то кнопка

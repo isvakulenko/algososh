@@ -3,7 +3,7 @@ import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Page with Fibonacci numbers app is right", () => {
   before(function () {
-    cy.visit("http://localhost:3000/fibonacci");
+    cy.visit("fibonacci");
   });
   // Проверьте, что если в инпуте пусто, то кнопка
   // добавления недоступна.
