@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  gap: 12px;
+  min-width: 50%;
+  margin: 0 auto;
+  justify-content: center;
+}
+.input {
+  max-width: 204px;
+}
+.list {
+  margin: 0;
+  padding: 90px 0 0;
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.listCircles {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.upCirlce {
+  position: absolute;
+  top: -67px;
+  left: 12px;
+}
+
+.downCircle {
+  position: absolute;
+  top: 110px;
+  left: 15px;
+}

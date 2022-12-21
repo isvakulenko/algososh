@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  gap: 12px;
+  min-width: 50%;
+  margin: 0 auto;
+  justify-content: center;
+}
+.input {
+  max-width: 377px;
+}
+.reverseList {
+  margin: 0;
+  padding: 146px 0 0;
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
