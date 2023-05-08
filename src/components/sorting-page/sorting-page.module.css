@@ -1,0 +1,22 @@
+.radio{
+  display: flex;
+}
+.wrapper{
+  display: flex;
+  gap: 40px;
+  min-width: 50%;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.list {
+  margin: 0 auto;
+  padding-top: 48px;
+  list-style-type: none;
+  max-width: 944px;
+  display: flex;
+  column-gap: 10px;
+  justify-content: center;
+  align-items: flex-end;
+  align-content: flex-start;
+}
